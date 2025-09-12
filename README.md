@@ -1,5 +1,0 @@
-create a folder - ai-pocket-agent
-cd ai-pocket-agent
-npx create-expo-app@latest .
-
-npm run reset-project
