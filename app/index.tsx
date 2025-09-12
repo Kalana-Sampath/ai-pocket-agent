@@ -1,9 +1,12 @@
+import { firestoreDb } from "@/config/FirebaseConfig";
 import Colors from "@/shared/Colors";
 import { useAuth, useSSO, useUser } from '@clerk/clerk-expo';
 import * as AuthSession from 'expo-auth-session';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import * as WebBrowser from 'expo-web-browser';
-import { useCallback, useEffect, useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Dimensions, Image, Platform, Text, TouchableOpacity, View } from "react-native";
 
 export const useWarmUpBrowser = () => {
@@ -32,9 +35,9 @@ export default function Index() {
     if (isSignedIn) {
       // react
     }
-    if(isSignedIn !== undefined)
+    if(isSignedIn != undefined)
     {
-      setLoading(false)
+      setLoading(false) 
     }
   }, [isSignedIn])
 
@@ -53,6 +56,16 @@ export default function Index() {
         // For more info, see https://docs.expo.dev/versions/latest/sdk/auth-session/#authsessionmakeredirecturioptions
         redirectUrl: AuthSession.makeRedirectUri(),
       })
+
+      if(signUp)
+      {
+        await setDoc(doc(firestoreDb,'users',signUp.emailAddress??''),{
+          email:signUp.emailAddress,
+          name:signUp.firstName + " " + signUp.lastName,
+          joinDate:Date.now(), 
+          credits:20
+        }); 
+      }
 
       // If sign in was successful, set the active session
       if (createdSessionId) {
@@ -118,23 +131,38 @@ export default function Index() {
         </Text>
       </View>
 
-    {!loading &&    <TouchableOpacity style={{
-          width: '85%',
-          alignSelf: 'center',
-          padding: 15,
-          backgroundColor: Colors.PRIMARY,
-          borderRadius: 12,
-          marginTop: 45,
-          
-        }} onPress={onLoginPress}>
-        <Text style={{
-          color: Colors.WHITE,
-          textAlign: 'center',
-          fontSize: 16
-        }}>Get Started</Text>
-      </TouchableOpacity>}
+    {!loading && (
+  <TouchableOpacity 
+    style={{
+      width: '85%',
+      alignSelf: 'center',
+      marginTop: 45,
+      borderRadius: 12,
+      overflow: 'hidden',
+    }} 
+    onPress={onLoginPress}
+  >
+    <LinearGradient
+      colors={[Colors.PRIMARY, Colors.SECONDARY]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      style={{
+        padding: 15,
+      }}
+    >
+      <Text style={{
+        color: Colors.WHITE,
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold'
+      }}>
+        Get Started
+      </Text>
+    </LinearGradient>
+  </TouchableOpacity>
+)}
 
-      {loading === undefined&&
+      {loading == undefined&&
       <ActivityIndicator size={'large'} />  
       }
     </View>
