@@ -33,7 +33,7 @@ export default function Index() {
 
   useEffect(() => {
     if (isSignedIn) {
-      // react
+      router.replace("/(tabs)/Home");
     }
     if(isSignedIn != undefined)
     {
