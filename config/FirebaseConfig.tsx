@@ -1,19 +1,16 @@
-  // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBIlMkccoijY9Pa3UtBsPPdr_H4TTpzwHk",
-  authDomain: "ai-pocket-agent-99fc9.firebaseapp.com",
-  projectId: "ai-pocket-agent-99fc9",
-  storageBucket: "ai-pocket-agent-99fc9.firebasestorage.app",
-  messagingSenderId: "303501961413",
-  appId: "1:303501961413:web:9dddb859e84f619132e8ac"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Check if Firebase has already been initialized
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+
 export const firestoreDb = getFirestore(app);

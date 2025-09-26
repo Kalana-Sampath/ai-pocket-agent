@@ -32,6 +32,7 @@ export default function Index() {
   useEffect(() => {
     if (isSignedIn) {
       // redirect to Home Screen
+      router.replace("/(tabs)/Home")
     }
     if (isSignedIn != undefined) {
       setLoading(false);
