@@ -17,13 +17,16 @@ export type Agent={
 }
 
 export default function AgentCard({agent}:Props) {
+  
   return (
     <View style={{
         backgroundColor: Colors.WHITE,
         borderRadius: 15,
         minHeight: 200,
         overflow: 'hidden'
-    }}>
+    }}
+    
+    >
       <View style={{
         padding: 15
       }}>

@@ -4,4 +4,5 @@ export default {
     BLACK: '#000',
     GRAY: 'GRAY',
     SECONDARY: '#346BF0',
+    LIGHT_GRAY: '#ddd'
 }
